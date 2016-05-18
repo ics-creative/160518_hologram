@@ -1,0 +1,94 @@
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<!--  <link rel="stylesheet" href="css/common.css">-->
+  <script type="text/javascript" src="hologram.js"></script>
+  <script type="text/javascript" src="//code.createjs.com/createjs-2015.11.26.min.js"></script>
+  <script type="text/javascript" src="anime_mitarashi.js"></script>
+  <style>
+    body, canvas {
+      background-color: #000;
+    }
+    #original {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="original" width="400" height="400"></canvas>
+  <canvas id="view" width="100" height="100"></canvas>
+  
+  <script>
+    // キャンバスサイズを調整
+    var canvas = document.getElementById("view");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    // 元になるアニメーションを作成
+    var stage = new createjs.Stage("original");
+    var mitarashi = new Mitarashi();
+    mitarashi.set({x: 200, y: 250});
+    stage.addChild(mitarashi);
+
+    createjs.Ticker.useRAF = true;
+    createjs.Ticker.setFPS(60);
+    createjs.Ticker.addEventListener("tick", loop);
+
+    function loop() {
+      stage.update();
+      hologramUpdate();
+    }
+    
+    function hologramUpdate() {
+      // 一旦画像に変換
+      var canvas = document.getElementById("original");
+      var ctx = canvas.getContext("2d");
+      var image = new Image();
+      image.src = canvas.toDataURL("image/png");
+
+      // 転写
+      var canvas2 = document.getElementById("view");
+      var ctx2 = canvas2.getContext("2d");
+      var viewW = canvas2.width;
+      var viewH = canvas2.height;
+      var size = Math.min(viewW, viewH);
+      var dw = size / 3;
+      var dh = size / 3;
+      var scaleW = dw / canvas.width;
+      var scaleH = dh / canvas.height;
+      var rad = -90 * Math.PI / 180;
+      var px = (viewW - size) / 2;
+      var py = (viewH - size) / 2;
+      
+      // 全面を塗りつぶし
+      ctx2.clearRect(0, 0, viewW, viewH);
+      
+      // 90度ずつ回転しながら描画
+      ctx2.save();
+      ctx2.translate(px + dw, py);
+      ctx2.drawImage(image, 0, 0, dw, dh);
+      ctx2.restore();
+
+      ctx2.save();
+      ctx2.translate(px, py + dh * 2);
+      ctx2.rotate(rad);
+      ctx2.drawImage(image, 0, 0, dw, dh);
+      ctx2.restore();
+
+      ctx2.save();
+      ctx2.translate(px + dw * 2, py + dh * 3);
+      ctx2.rotate(rad * 2);
+      ctx2.drawImage(image, 0, 0, dw, dh);
+      ctx2.restore();
+
+      ctx2.save();
+      ctx2.translate(px + dw * 3, py + dh);
+      ctx2.rotate(rad * 3);
+      ctx2.drawImage(image, 0, 0, dw, dh);
+      ctx2.restore();
+    }
+    
+    </script>
+</body>
+</html>

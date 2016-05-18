@@ -14,7 +14,8 @@
   </style>
 </head>
 <body>
-  <canvas id="original" width="400" height="400"></canvas>
+  
+  <canvas id="original" width="200" height="200"></canvas>
   <canvas id="view" width="100" height="100"></canvas>
   
   <script>
@@ -26,7 +27,7 @@
     // 元になるアニメーションを作成
     var stage = new createjs.Stage("original");
     var mitarashi = new Mitarashi();
-    mitarashi.set({x: 200, y: 250});
+    mitarashi.set({x: 100, y: 110});
     stage.addChild(mitarashi);
 
     createjs.Ticker.useRAF = true;
@@ -88,5 +89,9 @@
     }
     
     </script>
+  
+  <script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.2.12.8.js'><\/script>".replace("HOST", location.hostname));
+//]]></script>
 </body>
 </html>

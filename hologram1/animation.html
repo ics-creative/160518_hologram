@@ -1,0 +1,39 @@
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <script type="text/javascript" src="//code.createjs.com/createjs-2015.11.26.min.js"></script>
+  <script type="text/javascript" src="js/anime_mitarashi.js"></script>
+  <style>
+    body {
+      background-color: #fbf9eb;
+    }
+    canvas {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -300px 0 0 -300px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="mitarashi" width="600" height="600"></canvas>
+  
+  <script>
+    // スプライトアニメーションを再生
+    var stage = new createjs.Stage("mitarashi");
+    var mitarashi = new Mitarashi();
+    mitarashi.set({x: 300, y: 300});
+    stage.addChild(mitarashi);
+
+    createjs.Ticker.useRAF = true;
+    createjs.Ticker.setFPS(60);
+    createjs.Ticker.addEventListener("tick", loop);
+
+    function loop() {
+      stage.update();
+    }
+    
+    </script>
+</body>
+</html>

@@ -46,8 +46,6 @@
       // 元になるCanvasを画像に変換
       var canvas = document.getElementById("original");
       var ctx = canvas.getContext("2d");
-      var image = new Image();
-      image.src = canvas.toDataURL("image/png");
 
       // 表示用のCanvas
       var canvas2 = document.getElementById("view");
@@ -73,25 +71,25 @@
       // 90度ずつ回転しながら転写
       ctx2.save();
       ctx2.translate(px + dw, py);
-      ctx2.drawImage(image, 0, 0, dw, dh);
+      ctx2.drawImage(canvas, 0, 0, dw, dh);
       ctx2.restore();
 
       ctx2.save();
       ctx2.translate(px, py + dh * 2);
       ctx2.rotate(rad);
-      ctx2.drawImage(image, 0, 0, dw, dh);
+      ctx2.drawImage(canvas, 0, 0, dw, dh);
       ctx2.restore();
 
       ctx2.save();
       ctx2.translate(px + dw * 2, py + dh * 3);
       ctx2.rotate(rad * 2);
-      ctx2.drawImage(image, 0, 0, dw, dh);
+      ctx2.drawImage(canvas, 0, 0, dw, dh);
       ctx2.restore();
 
       ctx2.save();
       ctx2.translate(px + dw * 3, py + dh);
       ctx2.rotate(rad * 3);
-      ctx2.drawImage(image, 0, 0, dw, dh);
+      ctx2.drawImage(canvas, 0, 0, dw, dh);
       ctx2.restore();
     }
     

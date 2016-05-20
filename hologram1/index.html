@@ -21,7 +21,6 @@
     var view = document.getElementById("view");
     var original = document.getElementById("original");
     var ctx = view.getContext("2d");
-    var image = new Image();
     var rad = -90 * Math.PI / 180;
     var stage;
     var loader;
@@ -78,9 +77,6 @@
     }
     
     function hologramUpdate() {
-      // 元になるキャンバスを画像に変換
-      image.src = original.toDataURL("image/png");
-      
       // 描画をリセット
       ctx.clearRect(0, 0, viewW, viewH);
       
@@ -91,25 +87,25 @@
       // 90度ずつ回転しながら転写
       ctx.save();
       ctx.translate(px + dw, py);
-      ctx.drawImage(image, 0, 0, dw, dh);
+      ctx.drawImage(original, 0, 0, dw, dh);
       ctx.restore();
 
       ctx.save();
       ctx.translate(px, py + dh * 2);
       ctx.rotate(rad);
-      ctx.drawImage(image, 0, 0, dw, dh);
+      ctx.drawImage(original, 0, 0, dw, dh);
       ctx.restore();
 
       ctx.save();
       ctx.translate(px + dw * 2, py + dh * 3);
       ctx.rotate(rad * 2);
-      ctx.drawImage(image, 0, 0, dw, dh);
+      ctx.drawImage(original, 0, 0, dw, dh);
       ctx.restore();
 
       ctx.save();
       ctx.translate(px + dw * 3, py + dh);
       ctx.rotate(rad * 3);
-      ctx.drawImage(image, 0, 0, dw, dh);
+      ctx.drawImage(original, 0, 0, dw, dh);
       ctx.restore();
     }
     </script>

@@ -86,24 +86,28 @@
       
       // 90度ずつ回転しながら転写
       ctx.save();
-      ctx.translate(px + dw, py);
+      ctx.translate(px + dw * 2, py);
+      ctx.scale(-1, 1);
       ctx.drawImage(original, 0, 0, dw, dh);
       ctx.restore();
 
       ctx.save();
-      ctx.translate(px, py + dh * 2);
+      ctx.translate(px, py + dh);
+      ctx.scale(1, -1);
       ctx.rotate(rad);
       ctx.drawImage(original, 0, 0, dw, dh);
       ctx.restore();
 
       ctx.save();
-      ctx.translate(px + dw * 2, py + dh * 3);
+      ctx.translate(px + dw, py + dh * 3);
+      ctx.scale(-1, 1);
       ctx.rotate(rad * 2);
       ctx.drawImage(original, 0, 0, dw, dh);
       ctx.restore();
 
       ctx.save();
-      ctx.translate(px + dw * 3, py + dh);
+      ctx.translate(px + dw * 3, py + dh * 2);
+      ctx.scale(1, -1);
       ctx.rotate(rad * 3);
       ctx.drawImage(original, 0, 0, dw, dh);
       ctx.restore();

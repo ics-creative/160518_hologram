@@ -18,81 +18,84 @@
     #original {
       display: none;
     }
-    #view {
-/*      display: none;*/
-    }
   </style>
 </head>
 <body>
-  <div id="test"></div>
   <canvas id="original"></canvas>
   <canvas id="view"></canvas>
   
   <script>
-    // キャンバスサイズを調整
-    var canvas = document.getElementById("view");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    var view = document.getElementById("view");
+    var original = document.getElementById("original");
+    var ctx = view.getContext("2d");
+    var rad = -90 * Math.PI / 180;
+    var viewW, viewH;
+    var size;
+    var dw, dh;
+    var px, py;
+    
+    // 描画サイズなどを設定
+    window.onresize = setting;
+    setting();
 
     createjs.Ticker.useRAF = true;
     createjs.Ticker.setFPS(60);
-    createjs.Ticker.addEventListener("tick", loop);
+    createjs.Ticker.addEventListener("tick", tick);
     
-    function loop() {
+    function tick() {
       hologramUpdate();
     }
     
-    function hologramUpdate() {
-      // 元になるCanvasを画像に変換
-      var canvas = document.getElementById("original");
-      var ctx = canvas.getContext("2d");
-
-      // 表示用のCanvas
-      var canvas2 = document.getElementById("view");
-      var ctx2 = canvas2.getContext("2d");
-      var viewW = canvas2.width;
-      var viewH = canvas2.height;
-      var size = Math.min(viewW, viewH);
-      var dw = size / 3;
-      var dh = size / 3;
-      var scaleW = dw / canvas.width;
-      var scaleH = dh / canvas.height;
-      var rad = -90 * Math.PI / 180;
-      var px = (viewW - size) / 2;
-      var py = (viewH - size) / 2;
-      
-      // 全面を塗りつぶし
-      ctx2.clearRect(0, 0, viewW, viewH);
-      
-      // 投影機の設置位置を描画
-      ctx2.strokeStyle = "rgb(40, 40, 40)";
-      ctx2.strokeRect((viewW - size / 6) * 0.5, (viewH - size / 6) * 0.5, size / 6, size / 6);
-      
-      // 90度ずつ回転しながら転写
-      ctx2.save();
-      ctx2.translate(px + dw, py);
-      ctx2.drawImage(canvas, 0, 0, dw, dh);
-      ctx2.restore();
-
-      ctx2.save();
-      ctx2.translate(px, py + dh * 2);
-      ctx2.rotate(rad);
-      ctx2.drawImage(canvas, 0, 0, dw, dh);
-      ctx2.restore();
-
-      ctx2.save();
-      ctx2.translate(px + dw * 2, py + dh * 3);
-      ctx2.rotate(rad * 2);
-      ctx2.drawImage(canvas, 0, 0, dw, dh);
-      ctx2.restore();
-
-      ctx2.save();
-      ctx2.translate(px + dw * 3, py + dh);
-      ctx2.rotate(rad * 3);
-      ctx2.drawImage(canvas, 0, 0, dw, dh);
-      ctx2.restore();
+    function setting() {
+      viewW = window.innerWidth;
+      viewH = window.innerHeight;
+      size = Math.min(viewW, viewH);
+      dw = size / 3;
+      dh = size / 3;
+      px = (viewW - size) / 2;
+      py = (viewH - size) / 2;
+    
+      // 表示するキャンバスのサイズを調整
+      view.width = viewW;
+      view.height = viewH;
     }
     
+    function hologramUpdate() {
+      // 描画をリセット
+      ctx.clearRect(0, 0, viewW, viewH);
+      
+      // 投影機の設置位置を描画
+      ctx.strokeStyle = "rgb(40, 40, 40)";
+      ctx.strokeRect((viewW - size / 6) * 0.5, (viewH - size / 6) * 0.5, size / 6, size / 6);
+      
+      // 90度ずつ回転しながら転写
+      ctx.save();
+      ctx.translate(px + dw * 2, py);
+      ctx.scale(-1, 1);
+      ctx.drawImage(original, 0, 0, dw, dh);
+      ctx.restore();
+
+      ctx.save();
+      ctx.translate(px, py + dh);
+      ctx.scale(1, -1);
+      ctx.rotate(rad);
+      ctx.drawImage(original, 0, 0, dw, dh);
+      ctx.restore();
+
+      ctx.save();
+      ctx.translate(px + dw, py + dh * 3);
+      ctx.scale(-1, 1);
+      ctx.rotate(rad * 2);
+      ctx.drawImage(original, 0, 0, dw, dh);
+      ctx.restore();
+
+      ctx.save();
+      ctx.translate(px + dw * 3, py + dh * 2);
+      ctx.scale(1, -1);
+      ctx.rotate(rad * 3);
+      ctx.drawImage(original, 0, 0, dw, dh);
+      ctx.restore();
+    }
     </script>
 </body>
 </html>

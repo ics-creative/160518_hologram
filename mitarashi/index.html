@@ -1,0 +1,40 @@
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>mitarashi</title>
+<script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+<script src="mitarashi.js?1463708749388"></script>
+<script>
+var canvas, stage, exportRoot;
+function init() {
+	canvas = document.getElementById("canvas");
+	images = images||{};
+
+	var loader = new createjs.LoadQueue(false);
+	loader.addEventListener("fileload", handleFileLoad);
+	loader.addEventListener("complete", handleComplete);
+	loader.loadManifest(lib.properties.manifest);
+}
+
+function handleFileLoad(evt) {
+	if (evt.item.type == "image") { images[evt.item.id] = evt.result; }
+}
+
+function handleComplete(evt) {
+	exportRoot = new lib.mitarashi();
+
+	stage = new createjs.Stage(canvas);
+	stage.addChild(exportRoot);
+	stage.update();
+
+	createjs.Ticker.setFPS(lib.properties.fps);
+	createjs.Ticker.addEventListener("tick", stage);
+}
+
+</script>
+</head>
+<body onload="init();">
+	<canvas id="canvas" width="300" height="300"></canvas>
+</body>
+</html>

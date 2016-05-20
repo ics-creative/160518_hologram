@@ -37,7 +37,7 @@ var demo;
             this.scene = new THREE.Scene();
             // カメラ
             this.camera = new THREE.PerspectiveCamera(45, 1, 1, 2000);
-            this.camera.position.set(-350, 0, -250);
+            this.camera.position.set(-200, 0, -250);
             this.camera.lookAt(new THREE.Vector3(0, 0, 0));
             // レンダラー
             this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas:document.getElementById("original"), preserveDrawingBuffer: true });
